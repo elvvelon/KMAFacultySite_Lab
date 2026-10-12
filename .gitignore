@@ -15,3 +15,5 @@ ENV/
 # OS files
 .DS_Store
 Thumbs.db
+#Data base
+db.sqlite3
