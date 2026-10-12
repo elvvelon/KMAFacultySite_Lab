@@ -21,6 +21,10 @@
           <li><a href="{% url 'home' %}">Головна</a></li>
           <li><a href="{% url 'specialty_list' %}">Спеціальності</a></li>
           <li><a href="{% url 'department_list' %}">Кафедри</a></li>
+          <li>
+            <a class="nav-link nav-link-custom {% if 'exchange' in request.resolver_match.url_name or 'exchange' in request.path %}active{% endif %}" href="{% url 'exchange_list' %}">
+                <i class="bi bi-airplane me-1"></i> Програми обміну</a>
+          </li>
           <li><a href="{% url 'contacts' %}">Контакти</a></li>
         </ul>
       </nav>

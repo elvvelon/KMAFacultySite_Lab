@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
-from .models import Department, Specialty, Lecturer, HomePageContent
-
+from django.utils import timezone
+from .models import Department, Specialty, Lecturer, HomePageContent, ExchangeProgram
 
 def home_view(request):
     """
@@ -112,3 +112,29 @@ def contacts_view(request):
         'departments': departments,
     }
     return render(request, 'faculty/contacts.html', context)
+
+
+def exchange_list_view(request):
+    """
+    List of exchange programs.
+    """
+    country_filter = request.GET.get('country', '').strip()
+    programs = ExchangeProgram.objects.all()
+    has_country_field = 'country' in [f.name for f in ExchangeProgram._meta.get_fields()]
+    countries = []
+    if has_country_field:
+        countries = [
+            c for c in ExchangeProgram.objects.values_list('country', flat=True).distinct().order_by('country')
+            if c
+        ]
+        if country_filter:
+            programs = programs.filter(country=country_filter)
+    today = timezone.now().date()
+    context = {
+        'programs': programs,
+        'countries': countries,
+        'selected_country': country_filter,
+        'has_country_field': has_country_field,
+        'today': today,
+    }
+    return render(request, 'faculty/exchange_list.html', context)

@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Department, Specialty, Lecturer, HomePageContent
-
+from .models import Department, Specialty, Lecturer, HomePageContent, ExchangeProgram
 
 admin.site.site_header = "Факультет гуманітарних наук НаУКМА — Панель керування"
 admin.site.site_title = "ФГН НаУКМА Адміністрування"
@@ -85,3 +84,10 @@ class HomePageContentAdmin(admin.ModelAdmin):
         if HomePageContent.objects.exists():
             return False
         return super().has_add_permission(request)
+
+
+@admin.register(ExchangeProgram)
+class ExchangeProgramAdmin(admin.ModelAdmin):
+    list_display = ("university", "languages", "places", "deadline")
+    list_filter = ("deadline",)
+    search_fields = ("university", "languages", "description")

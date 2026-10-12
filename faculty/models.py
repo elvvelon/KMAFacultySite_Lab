@@ -176,3 +176,27 @@ class HomePageContent(models.Model):
                 working_hours="Понеділок – Пʼятниця: 09:00 – 18:00",
             )
         return obj
+
+class ExchangeProgram(models.Model):
+    university = models.CharField(
+        max_length=255,
+        verbose_name="Університет"
+    )
+    languages = models.CharField(
+        max_length=255,
+        verbose_name="Мови навчання"
+    )
+    places = models.CharField(
+        max_length=50,
+        verbose_name="Кількість місць"
+    )
+    deadline = models.DateField(
+        verbose_name="Дедлайн подачі"
+    )
+    description = models.TextField(
+        verbose_name="Опис"
+    )
+    class Meta:
+        verbose_name = "Програма обміну"
+        verbose_name_plural = "Програми обміну"
+        ordering = ["deadline"]
