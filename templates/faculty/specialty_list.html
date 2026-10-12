@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Спеціальності | ФГН НаУКМА{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <span class="badge-pill">Освітні програми</span>
+    <span class="editorial-stars">✦ ✦ ✦</span>
+  </div>
+  <h1 class="page-title">Спеціальності факультету</h1>
+
+  <!-- Фільтрація та пошук -->
+  <form method="get" class="filter-bar">
+      <label>
+          <input type="text" name="q" value="{{ query }}" placeholder="Пошук спеціальності, коду..." class="input-search" style="flex: 1;">
+      </label>
+      <label>
+          <select name="dept" class="select-filter">
+          <option value="">Усі кафедри</option>
+          {% for d in departments %}
+            <option value="{{ d.id }}" {% if selected_dept == d.id %}selected{% endif %}>{{ d.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <button type="submit" class="btn">Шукати</button>
+  </form>
+
+  <div class="grid-2">
+    {% for s in specialties %}
+      <div class="card">
+        <div>
+          <span class="badge-pill">Код: {{ s.code }}</span>
+          <h2 class="card-title">
+            <!-- Натискання на назву спеціальності переадресовує на сторінку спеціальності -->
+            <a href="{% url 'specialty_detail' s.pk %}">{{ s.name }}</a>
+          </h2>
+          <div class="card-meta">
+            Випускова кафедра: <a href="{% url 'department_detail' s.department.pk %}" style="text-decoration: underline;">{{ s.department.name }}</a>
+          </div>
+          <!-- Перші 50 слів опису через property short_description -->
+          <p class="card-desc">{{ s.short_description }}</p>
+        </div>
+
+        <div class="contact-chip">
+          <div class="card-meta">Координатор набору:</div>
+          <strong>{{ s.coordinator_name }}</strong>
+          <div>{{ s.coordinator_contact }}</div>
+        </div>
+      </div>
+    {% empty %}
+      <p style="color: var(--text-muted); grid-column: 1 / -1;">За вказаними критеріями спеціальностей не знайдено.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
