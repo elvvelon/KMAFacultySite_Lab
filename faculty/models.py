@@ -182,6 +182,11 @@ class ExchangeProgram(models.Model):
         max_length=255,
         verbose_name="Університет"
     )
+    country = models.CharField(
+        max_length=100,
+        verbose_name="Країна",
+        default=""
+    )
     languages = models.CharField(
         max_length=255,
         verbose_name="Мови навчання"

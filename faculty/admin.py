@@ -88,6 +88,6 @@ class HomePageContentAdmin(admin.ModelAdmin):
 
 @admin.register(ExchangeProgram)
 class ExchangeProgramAdmin(admin.ModelAdmin):
-    list_display = ("university", "languages", "places", "deadline")
-    list_filter = ("deadline",)
-    search_fields = ("university", "languages", "description")
+    list_display = ("university", "country", "places", "languages", "deadline")
+    list_filter = ("country", "deadline")
+    search_fields = ("university", "country", "languages", "description")
