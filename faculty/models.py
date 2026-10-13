@@ -191,7 +191,7 @@ class ExchangeProgram(models.Model):
         max_length=255,
         verbose_name="Мови навчання"
     )
-    places = models.CharField(
+    places = models.PositiveIntegerField(
         max_length=50,
         verbose_name="Кількість місць"
     )
