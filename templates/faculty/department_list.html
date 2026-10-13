@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Кафедри | ФГН НаУКМА{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <span class="badge-pill">Структура факультету</span>
+    <span class="editorial-stars">✦ ✦ ✦</span>
+  </div>
+  <h1 class="page-title">Кафедри факультету</h1>
+
+  <div class="grid-2">
+    {% for dept in departments %}
+      <div class="card">
+        <div>
+          <!-- Натискання на назву кафедри переадресовує на її сторінку -->
+          <h2 class="card-title">
+            <a href="{% url 'department_detail' dept.pk %}">{{ dept.name }}</a>
+          </h2>
+          <div class="card-meta">
+            Завідувач: <strong>{{ dept.head }}</strong>
+          </div>
+          {% if dept.office %}
+            <div class="card-meta">Аудиторія: {{ dept.office }}</div>
+          {% endif %}
+        </div>
+
+        <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+          <div class="card-meta" style="font-weight: 600; text-transform: uppercase;">Випускові спеціальності:</div>
+          {% if dept.specialties.all %}
+            <ul style="list-style: none; margin-top: 0.5rem;">
+              {% for s in dept.specialties.all %}
+                <li style="font-size: 0.9rem; margin-bottom: 0.35rem;">
+                  <a href="{% url 'specialty_detail' s.pk %}" style="text-decoration: underline;">
+                    {{ s.code }} — {{ s.name }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Загальнофакультетська підготовка</span>
+          {% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <p style="color: var(--text-muted);">Кафедри ще не внесені в систему.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

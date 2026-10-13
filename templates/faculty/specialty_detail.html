@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ specialty.code }} {{ specialty.name }} | ФГН НаУКМА{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div style="border-bottom: 1px solid var(--border); padding-bottom: 2rem; margin-bottom: 2.5rem;">
+    <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+      <span class="badge-pill">Код: {{ specialty.code }}</span>
+      <a href="{% url 'department_detail' specialty.department.pk %}" class="badge-pill" style="border-style: dashed;">
+        Кафедра: {{ specialty.department.name }}
+      </a>
+    </div>
+    <h1 class="page-title" style="margin: 0.5rem 0 1rem;">{{ specialty.name }}</h1>
+  </div>
+
+  <div class="grid-2" style="align-items: start;">
+    <div>
+      <h2 style="font-family: var(--font-serif),serif; font-size: 2rem; margin-bottom: 1rem;">Повний опис програми</h2>
+      <p style="white-space: pre-line; font-size: 1.05rem; color: #2a2a2a; margin-bottom: 3rem;">
+        {{ specialty.description }}
+      </p>
+
+      <!-- Список дисциплін, що вивчаються -->
+      <h2 style="font-family: var(--font-serif),serif; font-size: 2rem; margin-bottom: 1rem;">Дисципліни курсу</h2>
+      {% if specialty.disciplines_list %}
+        <div class="tags-cloud">
+          {% for disc in specialty.disciplines_list %}
+            <span class="tag-item">{{ disc }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p style="color: var(--text-muted);">Перелік дисциплін формується на навчальний рік.</p>
+      {% endif %}
+    </div>
+
+    <!-- Бокова колонка з контактами та суміжними програмами -->
+    <div>
+      <div class="card" style="margin-bottom: 2rem;">
+        <span class="badge-pill" style="margin-bottom: 0.5rem;">Вступна кампанія</span>
+        <h3 style="font-family: var(--font-serif),serif; font-size: 1.5rem; margin-bottom: 1rem;">Координатор набору</h3>
+        <p style="font-size: 1.1rem; font-weight: 600;">{{ specialty.coordinator_name }}</p>
+        <p style="color: var(--text-muted); margin-top: 0.25rem;">Контакт для довідок:</p>
+        <p style="font-weight: 500;">{{ specialty.coordinator_contact }}</p>
+      </div>
+
+      {% if other_specialties %}
+      <div style="border: 1px solid var(--border); padding: 2rem; background: var(--bg-card);">
+        <h4 style="font-family: var(--font-serif),serif; font-size: 1.35rem; margin-bottom: 1rem;">Інші програми кафедри</h4>
+        <ul style="list-style: none;">
+          {% for other in other_specialties %}
+            <li style="margin-bottom: 0.75rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+              <a href="{% url 'specialty_detail' other.pk %}">
+                <strong>{{ other.code }}</strong> — {{ other.name }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
