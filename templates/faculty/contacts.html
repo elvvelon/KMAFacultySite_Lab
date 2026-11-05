@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Контакти | ФГН НаУКМА{% endblock %}
+
+{% block content %}
+<div class="container">
+  <span class="badge-pill">Звʼязок з нами</span>
+  <h1 class="page-title">Контакти деканату та кафедр</h1>
+
+  <div class="grid-2" style="margin-bottom: 4rem;">
+    <div class="card">
+      <h2 style="font-family: var(--font-serif),serif; font-size: 2rem; margin-bottom: 1.5rem;">Деканат ФГН</h2>
+      <p style="margin-bottom: 0.5rem;"><strong>Адреса:</strong> {{ content.address }}</p>
+      <p style="margin-bottom: 0.5rem;"><strong>Телефон:</strong> {{ content.phone }}</p>
+      <p style="margin-bottom: 0.5rem;"><strong>Email:</strong> {{ content.email }}</p>
+      <p style="margin-bottom: 0.5rem;"><strong>Години роботи:</strong> {{ content.working_hours }}</p>
+    </div>
+    
+    <div class="card">
+      <h2 style="font-family: var(--font-serif),serif; font-size: 2rem; margin-bottom: 1.5rem;">Керівництво</h2>
+      <p><strong>Декан:</strong> {{ content.dean_name }}</p>
+      <p style="color: var(--text-muted);">{{ content.dean_degree }}</p>
+    </div>
+  </div>
+
+  <h2 style="font-family: var(--font-serif),serif; font-size: 2.2rem; margin-bottom: 1.5rem;">Контакти кафедр</h2>
+  <div class="grid-3">
+    {% for d in departments %}
+      <div class="card" style="padding: 1.5rem;">
+        <h3 style="font-family: var(--font-serif),serif; font-size: 1.35rem; margin-bottom: 0.5rem;">
+          <a href="{% url 'department_detail' d.pk %}">{{ d.name }}</a>
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Зав. кафедри: {{ d.head }}</p>
+        {% if d.office %}<p style="font-size: 0.85rem;">Аудиторія: {{ d.office }}</p>{% endif %}
+        {% if d.email %}<p style="font-size: 0.85rem;">Email: {{ d.email }}</p>{% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ department.name }} | ФГН НаУКМА{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div style="border-bottom: 1px solid var(--border); padding-bottom: 2rem; margin-bottom: 2.5rem;">
+    <span class="badge-pill">Кафедра</span>
+    <h1 class="page-title" style="margin: 0.75rem 0 1rem;">{{ department.name }}</h1>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap; font-size: 0.95rem;">
+      <div>Завідувач: <strong>{{ department.head }}</strong></div>
+      {% if department.office %}<div>Аудиторія: <strong>{{ department.office }}</strong></div>{% endif %}
+      {% if department.email %}<div>Email: <strong>{{ department.email }}</strong></div>{% endif %}
+      {% if department.phone %}<div>Тел.: <strong>{{ department.phone }}</strong></div>{% endif %}
+    </div>
+  </div>
+
+  {% if department.description %}
+  <div style="max-width: 900px; margin-bottom: 3.5rem;">
+    <h2 style="font-family: var(--font-serif),serif; font-size: 2rem; margin-bottom: 1rem;">Про кафедру</h2>
+    <p style="white-space: pre-line; color: #333;">{{ department.description }}</p>
+  </div>
+  {% endif %}
+
+  <!-- Спеціальності, для яких кафедра є випусковою -->
+  <div style="margin-bottom: 4rem;">
+    <h2 style="font-family: var(--font-serif),serif; font-size: 2rem; margin-bottom: 1.5rem;">Випускові спеціальності</h2>
+    <div class="grid-3">
+      {% for s in specialties %}
+        <div class="card" style="padding: 1.5rem;">
+          <span class="badge-pill">{{ s.code }}</span>
+          <h3 style="font-family: var(--font-serif),serif; font-size: 1.35rem; margin: 0.75rem 0;">
+            <a href="{% url 'specialty_detail' s.pk %}">{{ s.name }}</a>
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">{{ s.short_description|truncatewords:15 }}</p>
+        </div>
+      {% empty %}
+        <p style="color: var(--text-muted);">Кафедра забезпечує загальні гуманітарні курси.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Список викладачів кафедри -->
+  <div>
+    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+      <h2 style="font-family: var(--font-serif),serif; font-size: 2rem;">Викладацький склад</h2>
+      <span class="badge-pill">{{ lecturers.count }} викладачів</span>
+    </div>
+
+    <table class="editorial-table">
+      <thead>
+        <tr>
+          <th>Імʼя викладача</th>
+          <th>Посада</th>
+          <th>Науковий ступінь</th>
+          <th>Контакт</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for l in lecturers %}
+          <tr>
+            <td><strong>{{ l.name }}</strong></td>
+            <td>{{ l.position }}</td>
+            <td>{{ l.degree }}</td>
+            <td style="color: var(--text-muted);">{{ l.email|default:"—" }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+              Дані про викладачів оновлюються.
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

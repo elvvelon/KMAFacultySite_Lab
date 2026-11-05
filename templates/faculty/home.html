@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ content.title }} | НаУКМА{% endblock %}
+
+{% block content %}
+<!-- Блок із фото кампусу на фоні -->
+<section class="hero-banner-section">
+  <div class="container" style="padding-top: 0; padding-bottom: 0;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+      <span class="badge-pill">Факультет гуманітарних наук</span>
+      <span style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">Київ · Поділ</span>
+    </div>
+
+    <h1 class="page-title" style="font-size: 4.8rem; margin: 2rem 0 1rem; line-height: 0.98; max-width: 950px;">
+      {{ content.title|default:"Факультет гуманітарних наук НаУКМА" }}
+    </h1>
+
+    <p style="font-family: var(--font-serif),serif; font-size: 1.65rem; color: var(--text-muted); font-style: italic; max-width: 850px;">
+      {{ content.tagline|default:"Традиція критичного мислення, інтелектуальної свободи та культурного поступу" }}
+    </p>
+  </div>
+</section>
+
+<!-- Решта сторінки: лічильники, описи та контакти -->
+<div class="container">
+  <!-- Лічильники -->
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); padding: 2.5rem 0; text-align: center; margin-bottom: 3.5rem;">
+    <div>
+      <div style="font-family: var(--font-serif),serif; font-size: 3.2rem; font-weight: 700;">{{ departments_count }}</div>
+      <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">Кафедр</div>
+    </div>
+    <div style="border-left: 1px solid var(--border); border-right: 1px solid var(--border);">
+      <div style="font-family: var(--font-serif),serif; font-size: 3.2rem; font-weight: 700;">{{ specialties_count }}</div>
+      <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">Освітніх програм</div>
+    </div>
+    <div>
+      <div style="font-family: var(--font-serif),serif; font-size: 3.2rem; font-weight: 700;">{{ lecturers_count }}</div>
+      <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">Викладачів</div>
+    </div>
+  </div>
+
+  <!-- Блоки про факультет і місію -->
+  <div class="grid-2" style="margin-bottom: 4rem;">
+    <div>
+      <span class="badge-pill" style="margin-bottom: 1rem;">Про факультет</span>
+      <h2 style="font-family: var(--font-serif),serif; font-size: 2.2rem; margin: 1rem 0;">Спільнота інтелектуального пошуку</h2>
+      <p style="white-space: pre-line; color: #333;">{{ content.description }}</p>
+    </div>
+    <div>
+      <span class="badge-pill" style="margin-bottom: 1rem;">Місія та історія</span>
+      <h2 style="font-family: var(--font-serif),serif; font-size: 2.2rem; margin: 1rem 0;">Академічна спадщина</h2>
+      <p style="white-space: pre-line; color: #333;">{{ content.history_and_mission }}</p>
+    </div>
+  </div>
+
+  <!-- Слово декана -->
+  {% if content.dean_message %}
+  <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 3rem; margin-bottom: 4rem;">
+    <span class="badge-pill">Слово декана</span>
+    <blockquote class="quote-box">
+      «{{ content.dean_message }}»
+    </blockquote>
+    <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 0.5rem;">
+      <strong>{{ content.dean_name }}</strong>
+      <span style="color: var(--text-muted); font-size: 0.9rem;">— {{ content.dean_degree }}</span>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Контакти -->
+  <div style="border-top: 1px solid var(--border); padding-top: 3rem;">
+    <h2 style="font-family: var(--font-serif),serif; font-size: 2.2rem; margin-bottom: 1.5rem;">Контактна інформація</h2>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-meta">Локація</div>
+        <div style="font-size: 1.1rem; font-weight: 600;">{{ content.address }}</div>
+      </div>
+      <div class="card">
+        <div class="card-meta">Звʼязок</div>
+        <div style="font-size: 1.1rem; font-weight: 600;">{{ content.phone }}</div>
+        <div style="color: var(--text-muted);">{{ content.email }}</div>
+      </div>
+      <div class="card">
+        <div class="card-meta">Приймальні години</div>
+        <div style="font-size: 1.1rem; font-weight: 600;">{{ content.working_hours }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
